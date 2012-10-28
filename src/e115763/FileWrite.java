@@ -9,7 +9,7 @@ public class FileWrite {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		writeFile("test", 100, BUFSIZE,"hoge");
+		writeFile("test", 20000, BUFSIZE,"hoge");
 	}
 	
 	private static void writeFile(String fileName,int size, int bufsize, String str){
@@ -17,8 +17,9 @@ public class FileWrite {
 		try {
 			FileOutputStream os = new FileOutputStream(f);
 			FileChannel oc = os.getChannel();
-			ByteBuffer srcs = generateTestData(str,bufsize);
 			for(int remain = size; remain > 0;remain -= bufsize) {
+				int writesize = (remain < bufsize) ? remain : bufsize;
+				ByteBuffer srcs = generateTestData(str,writesize);
 				writeTest(oc, srcs);
 			}
 			os.close();
