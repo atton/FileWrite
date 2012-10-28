@@ -5,13 +5,17 @@ import java.nio.*;
 import java.nio.channels.FileChannel;
 
 public class FileWrite {
-	private static int BUFSIZE = 1024;
+	private static String BUFSIZE = "1024";
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		writeFile("test", 20000, BUFSIZE,"hoge");
+		int size = Integer.parseInt(parseArgs(args,"-s"));
+		int bufsize = Integer.parseInt(parseArgs(args,"-b"));
+		String str = parseArgs(args,"-c");
+		String filename = parseArgs(args,"-n");
+		writeFile(filename, size, bufsize, str);
 	}
-	
+
 	private static void writeFile(String fileName,int size, int bufsize, String str){
 		File f = new File(fileName);
 		try {
@@ -44,5 +48,17 @@ public class FileWrite {
 		}
 		buf.flip();
 		return buf;
+	}
+
+	private static String parseArgs(String[] args , String opt) {
+		for(int i = 0; i < args.length; i++) {
+			if (args[i].equals(opt)) {
+				return args[i+1];
+			}
+		}
+		if (opt.equals("-b")) return BUFSIZE;
+		if (opt.equals("-s")) return BUFSIZE;
+		System.out.println(opt + " option not found");
+		return null;
 	}
 }
