@@ -12,12 +12,12 @@ public class FileWrite {
 		try {
 			FileOutputStream os = new FileOutputStream(f);
 			FileChannel oc = os.getChannel();
-			os.close();
 			int size = 1000000000;
 			int bufsize = 1024;
 			for(int remain = size; remain > 0;remain -= bufsize) {
 				writeTest(oc,bufsize);
 			}
+			os.close();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
