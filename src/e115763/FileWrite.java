@@ -5,15 +5,18 @@ import java.nio.*;
 import java.nio.channels.FileChannel;
 
 public class FileWrite {
+	private static int BUFSIZE = 1024;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		File f = new File("test");
+		writeFile("test", 100, BUFSIZE,"hoge");
+	}
+	
+	private static void writeFile(String fileName,int size, int bufsize, String str){
+		File f = new File(fileName);
 		try {
 			FileOutputStream os = new FileOutputStream(f);
 			FileChannel oc = os.getChannel();
-			int size = 1000000000;
-			int bufsize = 1024;
 			for(int remain = size; remain > 0;remain -= bufsize) {
 				writeTest(oc,bufsize);
 			}
