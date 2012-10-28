@@ -17,8 +17,9 @@ public class FileWrite {
 		try {
 			FileOutputStream os = new FileOutputStream(f);
 			FileChannel oc = os.getChannel();
+			ByteBuffer srcs = generateTestData(str,bufsize);
 			for(int remain = size; remain > 0;remain -= bufsize) {
-				writeTest(oc,bufsize);
+				writeTest(oc, srcs);
 			}
 			os.close();
 		} catch(IOException e) {
@@ -26,8 +27,7 @@ public class FileWrite {
 		}
 	}
 
-	private static void writeTest(FileChannel oc, int bufsize){
-		ByteBuffer srcs = generateTestData("bc",bufsize);
+	private static void writeTest(FileChannel oc, ByteBuffer srcs){
 		try {
 			oc.write(srcs);
 		} catch (IOException e) {
@@ -35,9 +35,9 @@ public class FileWrite {
 		}
 	}
 
-	private static ByteBuffer generateTestData(String str, int size) {
-		ByteBuffer buf = ByteBuffer.allocate(size);
-		for(int i=0; i < size; i++) {
+	private static ByteBuffer generateTestData(String str, int bufsize) {
+		ByteBuffer buf = ByteBuffer.allocate(bufsize);
+		for(int i=0; i < bufsize; i++) {
 			int index = i % str.length();
 			buf.put((byte)str.charAt(index));
 		}
