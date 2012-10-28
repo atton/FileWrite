@@ -9,15 +9,20 @@ public class FileWrite {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int size = Integer.parseInt(parseArgs(args,"-s"));
-		int bufsize = Integer.parseInt(parseArgs(args,"-b"));
 		String str = parseArgs(args,"-c");
 		String filename = parseArgs(args,"-n");
-		writeFile(filename, size, bufsize, str);
+		
+		int size = Integer.parseInt(parseArgs(args,"-s"));
+		int bufsize = Integer.parseInt(parseArgs(args,"-b"));
+		if (filename != null) {
+			writeFile(filename, size, bufsize, str);
+		} else {
+			outputStdout(size, str);
+		}
 	}
 
-	private static void writeFile(String fileName,int size, int bufsize, String str){
-		File f = new File(fileName);
+	private static void writeFile(String filename,int size, int bufsize, String str){
+		File f =  new File(filename);
 		try {
 			FileOutputStream os = new FileOutputStream(f);
 			FileChannel oc = os.getChannel();
@@ -31,6 +36,12 @@ public class FileWrite {
 			e.printStackTrace();
 		}
 	}
+	
+	private static void outputStdout(int size, String str) {
+		for(int i = 0; i < size; i++)
+			System.out.print(str.charAt(i % (str.length() -1)));
+	}
+	
 
 	private static void writeTest(FileChannel oc, ByteBuffer srcs){
 		try {
@@ -58,6 +69,7 @@ public class FileWrite {
 		}
 		if (opt.equals("-b")) return BUFSIZE;
 		if (opt.equals("-s")) return BUFSIZE;
+		if (opt.equals("-c")) System.out.println("please input string. use -c option");
 		System.out.println(opt + " option not found");
 		return null;
 	}
