@@ -11,8 +11,8 @@ public class FileWrite {
 		String str = parseArgs(args,"-c");
 		String filename = parseArgs(args,"-n");
 		
-		int size = Integer.parseInt(parseArgs(args,"-s"));
-		int bufsize = Integer.parseInt(parseArgs(args,"-b"));
+		long size = Long.parseLong(parseArgs(args,"-s"));
+		long bufsize = Long.parseLong(parseArgs(args,"-b"));
 		if (filename != null) {
 			writeFile(filename, size, bufsize, str);
 		} else {
@@ -20,13 +20,13 @@ public class FileWrite {
 		}
 	}
 
-	private static void writeFile(String filename,int size, int bufsize, String str){
+	private static void writeFile(String filename,long size, long bufsize, String str){
 		File f =  new File(filename);
 		try {
 			FileOutputStream os = new FileOutputStream(f);
 			FileChannel oc = os.getChannel();
-			for(int remain = size; remain > 0;remain -= bufsize) {
-				int writesize = (remain < bufsize) ? remain : bufsize;
+			for(long remain = size; remain > 0;remain -= bufsize) {
+				int writesize = (int)((remain < (long)bufsize) ? remain : bufsize);
 				ByteBuffer srcs = generateTestData(str,writesize);
 				writeTest(oc, srcs);
 			}
@@ -36,7 +36,7 @@ public class FileWrite {
 		}
 	}
 	
-	private static void outputStdout(int size, String str) {
+	private static void outputStdout(long size, String str) {
 		for(int i = 0; i < size; i++) {
 			int index = str.length() <= 1 ? 0 : i % (str.length() -1);
 			System.out.print(str.charAt(index));
