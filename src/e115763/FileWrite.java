@@ -63,14 +63,16 @@ public class FileWrite {
 
 	private static String parseArgs(String[] args , String opt) {
 		for(int i = 0; i < args.length; i++) {
+			if (i+1 >= args.length) break;
 			if (args[i].equals(opt)) {
 				return args[i+1];
 			}
 		}
 		if (opt.equals("-b")) return BUFSIZE;
 		if (opt.equals("-s")) return BUFSIZE;
+		if (opt.equals("-n")) return null;
 		if (opt.equals("-c")) System.out.println("please input string. use -c option");
-		System.out.println(opt + " option not found");
+		System.exit(-1);
 		return null;
 	}
 }
