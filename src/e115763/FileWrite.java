@@ -8,7 +8,6 @@ public class FileWrite {
 	private static String BUFSIZE = "1024";
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String str = parseArgs(args,"-c");
 		String filename = parseArgs(args,"-n");
 		
@@ -38,8 +37,10 @@ public class FileWrite {
 	}
 	
 	private static void outputStdout(int size, String str) {
-		for(int i = 0; i < size; i++)
-			System.out.print(str.charAt(i % (str.length() -1)));
+		for(int i = 0; i < size; i++) {
+			int index = str.length() <= 1 ? 0 : i % (str.length() -1);
+			System.out.print(str.charAt(index));
+		}
 	}
 	
 
