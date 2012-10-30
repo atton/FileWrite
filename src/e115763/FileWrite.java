@@ -62,7 +62,7 @@ public class FileWrite {
 		return buf;
 	}
 
-	private static String parseArgs(String[] args , String opt) {
+	public static String parseArgs(String[] args , String opt) {
 		for(int i = 0; i < args.length; i++) {
 			if (i+1 >= args.length) break;
 			if (args[i].equals(opt)) {
@@ -72,7 +72,11 @@ public class FileWrite {
 		if (opt.equals("-b")) return BUFSIZE;
 		if (opt.equals("-s")) return BUFSIZE;
 		if (opt.equals("-n")) return null;
-		if (opt.equals("-c")) System.out.println("please input string. use -c option");
+		if (opt.equals("-c")) {
+			System.out.println("please input string. use -c option");
+			System.exit(-1);
+		}
+		System.out.println("undefined option" + opt);
 		System.exit(-1);
 		return null;
 	}
