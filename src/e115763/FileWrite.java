@@ -5,14 +5,40 @@ import java.nio.*;
 import java.nio.channels.FileChannel;
 
 public class FileWrite {
-	private static String BUFSIZE = "1024";
+	private static int BUFSIZE = 1024;
 
 	public static void main(String[] args) {
-		String str = parseArgs(args,"-c");
-		String filename = parseArgs(args,"-n");
+		String str = null;
+		String filename = null;
+		long size = BUFSIZE;
+		long bufsize = BUFSIZE;
+
+		// parse args
+		for(int i =0; i<args.length; i++) {
+			switch(args[i]) {
+			case "-c" :
+				str = args[++i];
+				break;
+			case "-n" :
+				filename = args[++i];
+				break;
+			case "-s" :
+				size = Long.parseLong(args[++i]);
+				break;
+			case "-b" :
+				bufsize = Long.parseLong(args[++i]);
+				break;
+			default :
+				System.out.println("unknown option" + args[i]);
+				System.exit(-1);
+			}
+		}
 		
-		long size = Long.parseLong(parseArgs(args,"-s"));
-		long bufsize = Long.parseLong(parseArgs(args,"-b"));
+		if(str == null) {
+			System.out.println("undefined output strings. please use -c option");
+			System.exit(-1);
+		}
+		
 		if (filename != null) {
 			writeFile(filename, size, bufsize, str);
 		} else {
@@ -35,14 +61,14 @@ public class FileWrite {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void outputStdout(long size, String str) {
 		for(int i = 0; i < size; i++) {
-			int index = str.length() <= 1 ? 0 : i % (str.length() -1);
+			int index = str.length() <= 1 ? 0 : i % (str.length());
 			System.out.print(str.charAt(index));
 		}
 	}
-	
+
 
 	private static void writeTest(FileChannel oc, ByteBuffer srcs){
 		try {
@@ -60,24 +86,5 @@ public class FileWrite {
 		}
 		buf.flip();
 		return buf;
-	}
-
-	public static String parseArgs(String[] args , String opt) {
-		for(int i = 0; i < args.length; i++) {
-			if (i+1 >= args.length) break;
-			if (args[i].equals(opt)) {
-				return args[i+1];
-			}
-		}
-		if (opt.equals("-b")) return BUFSIZE;
-		if (opt.equals("-s")) return BUFSIZE;
-		if (opt.equals("-n")) return null;
-		if (opt.equals("-c")) {
-			System.out.println("please input string. use -c option");
-			System.exit(-1);
-		}
-		System.out.println("undefined option" + opt);
-		System.exit(-1);
-		return null;
 	}
 }
