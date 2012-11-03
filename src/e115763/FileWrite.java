@@ -30,13 +30,13 @@ public class FileWrite {
 				break;
 			default :
 				System.out.println("unknown option" + args[i]);
-				System.exit(-1);
+				return;
 			}
 		}
 		
 		if(str == null) {
 			System.out.println("undefined output strings. please use -c option");
-			System.exit(-1);
+			return;
 		}
 		
 		if (filename != null) {
