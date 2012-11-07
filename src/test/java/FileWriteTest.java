@@ -8,7 +8,7 @@ import e115763.FileWrite;
 import java.io.*;
 
 public class FileWriteTest {
-	// for stdout test
+    // for stdout test
     private PrintStream _saved;
     private ByteArrayOutputStream _actual;
     private ByteArrayOutputStream _expected;
@@ -25,17 +25,16 @@ public class FileWriteTest {
     @After public void tearDown() {
         System.setOut(_saved);
     }
-    /*
-	@Test public void FileWriteRunTest() {
-		String filename = "/tmp/test";
-		String[] testArg = {"-c", "string", "-s", "3000", "-b", "50", "-n", filename};
-		FileWrite.main(testArg);
-		File file = new File(filename);
-		assert(file.exists());
-		file.delete();
-	}
-	
-	// exit and stdout output if no args
+    @Test public void FileWriteRunTest() {
+        String filename = "/tmp/test";
+        String[] testArg = {"-c", "string", "-s", "3000", "-b", "50", "-n", filename};
+        FileWrite.main(testArg);
+        File file = new File(filename);
+        assert(file.exists());
+        file.delete();
+    }
+    
+    // exit and stdout output if no args
     @Test public void ExitTest() {
         // Expected
         _out.println("undefined output strings. please use -c option");
@@ -48,5 +47,27 @@ public class FileWriteTest {
         // Compare
         assertEquals(_expected.toString(), _actual.toString());
     }
-    */
+    
+    // exist file not overwrite
+    @Test public void NoOverWriteTest() {
+        // create file
+        String filename = "/tmp/test";
+        String[] testArg = {"-c", "string", "-s", "3000", "-b", "50", "-n", filename};
+        FileWrite.main(testArg);
+
+        // Actual
+        FileWrite.main(testArg);    // test run (not overwrite message)
+        System.out.flush();
+        
+        // Expected
+        _out.println("/tmp/test is already exists.");
+        _out.flush();
+
+        // Compare
+        assertEquals(_expected.toString(), _actual.toString());
+        
+        // delete file
+        File file = new File(filename);
+        file.delete();
+    }
 }
