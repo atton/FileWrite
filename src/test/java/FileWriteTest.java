@@ -1,7 +1,10 @@
-package e115763;
+package test.java;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.*;
+
+import e115763.FileWrite;
+
 import java.io.*;
 
 public class FileWriteTest {
