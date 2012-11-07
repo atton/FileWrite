@@ -48,4 +48,27 @@ public class FileWriteTest {
         // Compare
         assertEquals(_expected.toString(), _actual.toString());
     }
+    
+    // exist file not overwrite
+    @Test public void NoOverWriteTest() {
+    	// create file
+		String filename = "/tmp/test";
+		String[] testArg = {"-c", "string", "-s", "3000", "-b", "50", "-n", filename};
+        FileWrite.main(testArg);
+
+        // Actual
+        FileWrite.main(testArg);	// test run (not overwrite message)
+        System.out.flush();
+        
+        // Expected
+        _out.println("/tmp/test is already exists.");
+        _out.flush();
+
+        // Compare
+        assertEquals(_expected.toString(), _actual.toString());
+        
+        // delete file
+		File file = new File(filename);
+		file.delete();
+    }
 }
