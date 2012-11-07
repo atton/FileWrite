@@ -27,7 +27,7 @@ public class FileWriteTest {
     }
 	
 	@Test public void FileWriteRunTest() {
-		String filename = "test";
+		String filename = "/tmp/test";
 		String[] testArg = {"-c", "string", "-s", "3000", "-b", "50", "-n", filename};
 		FileWrite.main(testArg);
 		File file = new File(filename);

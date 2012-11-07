@@ -40,6 +40,11 @@ public class FileWrite {
 		}
 		
 		if (filename != null) {
+			File file = new File(filename);
+			if(file.exists()) {
+				System.out.println(filename + " is already exists.");
+				return;
+			}
 			writeFile(filename, size, bufsize, str);
 		} else {
 			outputStdout(size, str);
