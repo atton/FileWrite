@@ -38,9 +38,21 @@ public class FileWrite {
 			System.out.println("undefined output strings. please use -c option");
 			return;
 		}
-		
+
 		if (filename != null) {
-			writeFile(filename, size, bufsize, str);
+			File file = new File(filename);
+			if(file.exists()) {
+				// confirm
+				System.out.println(filename + " is already exists. overwrite? y/n");
+				char c = 'n';
+				try {
+					c = (char) System.in.read();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if(c == 'y')
+					writeFile(filename, size, bufsize, str);
+			}
 		} else {
 			outputStdout(size, str);
 		}
